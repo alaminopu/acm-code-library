@@ -1,0 +1,41 @@
+#include <bits/stdc++.h>
+#define maxn 100
+using namespace std;
+
+vector<int> v;
+int dp[maxn][maxn];
+int A[maxn],B[maxn];
+int LCS(int n, int m){
+    if(n==0 || m==0) return 0;
+    if(dp[n][m]!=-1) return dp[n][m];
+    if(A[n]==B[m]){
+        dp[n][m] = 1+LCS(n-1,m-1);
+        v.push_back(A[n]);
+    }else{
+        dp[n][m] = max(LCS(n-1,m),LCS(n,m-1));
+    }
+    return dp[n][m];
+}
+
+int main(){
+    freopen("in.txt","r",stdin);
+    memset(dp, -1, sizeof dp);
+
+    int n,m;
+    cin >>n >>m;
+    for(int i=1;i<=n;i++){
+        cin >> A[i];
+    }
+    for(int i=1;i<=m;i++){
+        cin >> B[i];
+    }
+    int ret = LCS(n,m);
+    cout << ret << endl;
+
+    for(int i=0;i<v.size(); i++){
+        cout<<v[i] << " ";
+    }
+    cout <<endl;
+
+    return 0;
+}
